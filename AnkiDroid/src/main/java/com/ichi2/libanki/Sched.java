@@ -190,6 +190,15 @@ public class Sched {
     public int[] counts() {
         return counts(null);
     }
+	
+	public List<Integer> countsList(){
+		int[] is = counts();
+		List<Integer> list = new ArrayList();
+		for(int i=0; i<is.length; i++){
+			list.add(is[i]);
+		}
+		return list;
+	}
 
 
     public int[] counts(Card card) {
