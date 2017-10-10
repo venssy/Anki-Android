@@ -168,6 +168,7 @@ public class CardBrowser extends NavigationDrawerActivity implements
                 return;
             }
             final Card card = getCol().getCard(Long.parseLong(getCards().get(mPositionInCardsList).get("id")));
+            Resources res;
             switch (which) {
                 case CardBrowserContextMenu.CONTEXT_MENU_MARK:
                     onMark(card);
@@ -184,8 +185,30 @@ public class CardBrowser extends NavigationDrawerActivity implements
                             new DeckTask.TaskData(new Object[]{card, Collection.DismissType.SUSPEND_CARD}));
                     return;
 
+                case CardBrowserContextMenu.CONTEXT_MENU_MOVE_FIRST:
+                    res = getResources();
+                    new MaterialDialog.Builder(CardBrowser.this)
+                            .title(res.getString(R.string.move_to_first_card_title))
+                            .iconAttr(R.attr.dialogErrorIcon)
+                            .content(res.getString(R.string.move_to_first_card_message, getCards().get(mPositionInCardsList)
+                                    .get("sfld")))
+                            .positiveText(res.getString(R.string.dialog_positive_set))
+                            .negativeText(res.getString(R.string.dialog_cancel))
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    moveCardToFirst(card);
+                                    updateCardInList(card, null);
+                                    //DeckTask.launchDeckTask(DeckTask.TASK_TYPE_DISMISS,
+                                    //        mDeleteNoteHandler,
+                                    //        new DeckTask.TaskData(new Object[]{card, Collection.DismissType.DELETE_NOTE}));
+                                }
+                            })
+                            .build().show();
+                    return;
+
                 case CardBrowserContextMenu.CONTEXT_MENU_DELETE:
-                    Resources res = getResources();
+                    res = getResources();
                     new MaterialDialog.Builder(CardBrowser.this)
                             .title(res.getString(R.string.delete_card_title))
                             .iconAttr(R.attr.dialogErrorIcon)
@@ -340,6 +363,11 @@ public class CardBrowser extends NavigationDrawerActivity implements
             note.addTag("marked");
         }
         note.flush();
+    }
+
+    private void moveCardToFirst(Card card){
+        card.setDue(0);
+        card.flush();
     }
 
     @Override
@@ -991,7 +1019,6 @@ public class CardBrowser extends NavigationDrawerActivity implements
         s = s.trim();
         return s;
     }
-
 
     private void deleteNote(Card card) {
         if (currentCardInUseByReviewer()) {

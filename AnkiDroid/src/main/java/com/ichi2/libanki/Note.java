@@ -147,7 +147,6 @@ public class Note implements Cloneable {
         _postFlush();
     }
 
-
     public String joinedFields() {
         return Utils.joinFields(mFields);
     }

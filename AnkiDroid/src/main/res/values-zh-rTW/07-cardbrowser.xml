@@ -44,6 +44,7 @@
     <item quantity="other">已顯示 %d 張卡片</item>
   </plurals>
   <string name="card_browser_all_decks">所有牌組</string>
+  <string name="card_browser_move_first">移到第壹位</string>
   <string name="card_browser_delete_card">刪除筆記</string>
   <string name="card_browser_suspend_card">長久擱置卡片</string>
   <string name="card_browser_unsuspend_card">取消長久擱置卡片</string>

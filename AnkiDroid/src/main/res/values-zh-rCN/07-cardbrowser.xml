@@ -44,11 +44,14 @@
     <item quantity="other">共有%d张卡片</item>
   </plurals>
   <string name="card_browser_all_decks">所有牌组</string>
+  <string name="card_browser_move_first">移到第一位</string>
   <string name="card_browser_delete_card">删除笔记</string>
   <string name="card_browser_suspend_card">不要复习</string>
   <string name="card_browser_unsuspend_card">恢复复习</string>
   <string name="card_browser_mark_card">已标记的笔记</string>
   <string name="card_browser_unmark_card">未标记的笔记</string>
+  <string name="move_to_first_card_title">确定移到第一位？</string>
+  <string name="move_to_first_card_message">确定移动该卡片到第一位？\n搜索字段：%s</string>
   <string name="delete_card_title">确认删除笔记？</string>
   <string name="delete_card_message">确认删除此笔记的所有卡片？\n搜索字段：%s</string>
   <string name="card_browser_show_marked">筛选已标记卡牌</string>

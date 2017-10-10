@@ -17,6 +17,7 @@ public class CardBrowserContextMenu extends DialogFragment {
     public static final int CONTEXT_MENU_SUSPEND = 1;
     public static final int CONTEXT_MENU_DELETE = 2;
     public static final int CONTEXT_MENU_DETAILS = 3;
+    public static final int CONTEXT_MENU_MOVE_FIRST = 4;
     private static final int MAX_TITLE_LENGTH = 75;
 
     private static MaterialDialog.ListCallback mContextMenuListener;
@@ -39,7 +40,8 @@ public class CardBrowserContextMenu extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Resources res = getResources();
-        String[] entries = new String[4];
+        String[] entries = new String[5];
+        entries[CONTEXT_MENU_MOVE_FIRST] = res.getString(R.string.card_browser_move_first);
         entries[CONTEXT_MENU_DELETE] = res.getString(R.string.card_browser_delete_card);
         entries[CONTEXT_MENU_DETAILS] = res.getString(R.string.card_editor_preview_card);
         entries[CONTEXT_MENU_MARK] = res.getString(
