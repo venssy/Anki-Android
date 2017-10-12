@@ -16,7 +16,6 @@
 
 package com.ichi2.compat;
 
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;

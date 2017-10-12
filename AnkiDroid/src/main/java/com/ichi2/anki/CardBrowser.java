@@ -84,6 +84,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import timber.log.Timber;
+import java.util.regex.Matcher;
 
 public class CardBrowser extends NavigationDrawerActivity implements
         DeckDropDownAdapter.SubtitleListener {
@@ -835,8 +836,11 @@ public class CardBrowser extends NavigationDrawerActivity implements
         }
         searchCards();
     }
-
-    private void searchCards() {
+	
+	private static final Pattern searchPattern1 = Pattern.compile("(\\w+)\\s*:\\s*\\((\\w+(?:\\s*,\\s*\\w+)+)\\)");
+	private static final Pattern searchPattern2 = Pattern.compile("\\w+(?:\\s*,\\s*\\w+)+");
+	
+	private void searchCards() {
         // cancel the previous search & render tasks if still running
         DeckTask.cancelTask(DeckTask.TASK_TYPE_SEARCH_CARDS);
         DeckTask.cancelTask(DeckTask.TASK_TYPE_RENDER_BROWSER_QA);
@@ -844,8 +848,33 @@ public class CardBrowser extends NavigationDrawerActivity implements
         if (mSearchTerms.contains("deck:")) {
             searchText = mSearchTerms;
         } else {
-            searchText = mRestrictOnDeck + mSearchTerms;
+			if(mSearchTerms!=null && mSearchTerms.length()>0 && mSearchTerms.contains(" ") && mSearchTerms.startsWith("(") && mSearchTerms.endsWith(")"))
+            	searchText = mRestrictOnDeck + "(" + mSearchTerms + ")";
+			else
+				searchText = mRestrictOnDeck + mSearchTerms;
         }
+		
+		if(searchText.contains(",")){
+			Matcher m1 = searchPattern1.matcher(searchText);
+			while(m1.find()){
+				String field = m1.group(1);
+				StringBuilder sb = new StringBuilder("(");
+				sb.append(field).append(":");
+				sb.append(m1.group(2).replaceAll("\\s*,\\s*", " or "+m1.group(1)+":"));
+				sb.append(")");
+				searchText = searchText.replace(m1.group(), sb.toString());
+			}
+
+			Matcher m2 = searchPattern2.matcher(searchText);
+			while(m2.find()){
+				StringBuilder sb = new StringBuilder("(");
+				sb.append(m2.group().replaceAll("\\s*,\\s*", " or "));
+				sb.append(")");
+				searchText = searchText.replace(m2.group(), sb.toString());
+			}
+		}
+		
+
         if (colIsOpen() && mCardsAdapter!= null) {
             // clear the existing card list
             getCards().clear();
