@@ -49,6 +49,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -721,6 +722,10 @@ public class CardBrowser extends NavigationDrawerActivity implements
                 showTagsDialog();
                 return true;
 
+            case R.id.action_search_move_all_to_first:
+                moveAllToFirst();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
 
@@ -760,6 +765,19 @@ public class CardBrowser extends NavigationDrawerActivity implements
                 mReloadRequired = true;
             }
         }
+    }
+
+    private void moveAllToFirst(){
+		long[] ids = getCardIds();
+		StringBuilder sb = new StringBuilder();
+		for(int i=0; i<ids.length; i++){
+			Card card = getCol().getCard(ids[i]);
+			sb.append(card.note().getSFld()).append(",");
+			//moveCardToFirst(card);
+		}
+		Toast.makeText(getApplicationContext(), sb.toString(), Toast.LENGTH_SHORT);
+
+        //final Card card = getCol().getCard(Long.parseLong(getCards().get(mPositionInCardsList).get("id")));
     }
 
     private boolean currentCardInUseByReviewer() {

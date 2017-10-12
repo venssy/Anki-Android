@@ -31,5 +31,8 @@
     <item
         android:id="@+id/action_search_by_tag"
         android:title="@string/card_browser_search_by_tag"/>
+    <item
+        android:id="@+id/action_search_move_all_to_first"
+        android:title="@string/card_browser_move_all_to_first"/>
 
 </menu>
